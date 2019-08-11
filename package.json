@@ -1,0 +1,46 @@
+{
+  "name": "express-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "babel-node extra --presets env",
+    "clean": "rimraf dist",
+    "start": "npm run clean && npm run project",
+    "project": "tsc-watch --project . --onSuccess \"npm run nodemon\"",
+    "nodemon": "nodemon ./dist/index.js",
+    "lint:fix": "npm run lint --fix",
+    "Diamond": "node ./extra/patterns/Diamond.js",
+    "triangle": "node ./extra/patterns/triangle.js",
+    "validation": "node ./extra/utils/validation.js",
+    "permission": "node ./extra/utils/permission.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nehasoniengg/express-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nehasoniengg/express-server/issues"
+  },
+  "homepage": "https://github.com/nehasoniengg/express-server#readme",
+  "dependencies": {
+    "@types/express": "^4.17.0",
+    "@types/node": "^12.6.8",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel": "^6.23.0",
+    "dotenv": "^8.0.0",
+    "nodemon": "^1.19.1",
+    "tsc-watch": "^2.2.1",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
+  }
+}
