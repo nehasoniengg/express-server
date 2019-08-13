@@ -1,8 +1,12 @@
 import {Request , Response } from 'express';
+import User from '../user/User';
 
 class TraineeController{
  get (req, res ){
      console.log('inside get... >>>>>>>>>');
+    //  let user = new User({name: 'trainee'});
+     User.create({name: 'trainee2423523'});
+    //  user.save();
      res.send([
           {
               name: 'fake Response',

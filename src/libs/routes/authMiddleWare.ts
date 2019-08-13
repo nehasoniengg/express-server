@@ -4,18 +4,19 @@ import * as jwt from 'jsonwebtoken';
 export default function(module, permissionType) {
   // tslint:disable-next-line:only-arrow-functions
   return  function(req, res, next) {
-    console.log('user  ::::::', process.env.key);
-    const token = req.header('Authorization');
-    console.log('token value : ::: :', token);
-
-    // const user = jwt.verify(token, process.env.key);
-
+   
     try {
+      const token = req.header('Authorization');
       const user = jwt.verify(token, process.env.key);
+
+           console.log('information >>>>>>>',user);
+           console.log ('value of token ::::::',token);
+   
+      
       if (!user) {
         throw new Error('not authorized');
       } else {
-        next({ status: 401, message: 'Wrong Permission' });
+        next();
 
       }
     }
