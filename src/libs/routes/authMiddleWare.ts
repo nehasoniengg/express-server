@@ -16,7 +16,8 @@ export default function(module, permissionType) {
       if (!user) {
         throw new Error('not authorized');
       } else {
-        next();
+        // next({ status: 401, message: 'Wrong Permission' });
+        console.log('connection successful');
 
       }
     }

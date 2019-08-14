@@ -10,8 +10,8 @@ import { default as validation } from './validation';
 export const  traineeRouter = express.Router();
 
 traineeRouter.route('/').get(authMiddleWare('trainee', 'all'), TraineeController.get)
-    .post(validationHandler(validation.create), TraineeController.create)
-    .put(validationHandler(validation.update), TraineeController.update)
-    .delete(validationHandler(validation.delete), TraineeController.delete);
+                       .post(validationHandler(validation.create), TraineeController.create)
+                       .put(authMiddleWare('head-trainer','write'), TraineeController.update)
+                      .delete(validationHandler(validation.delete), TraineeController.delete);
 
 export default traineeRouter;

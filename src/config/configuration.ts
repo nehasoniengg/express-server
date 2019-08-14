@@ -14,6 +14,6 @@ const configuration: IConfig = Object.freeze( {
     port: envVars.PORT,
     key: envVars.key,
     });
-//console.log('config is::::', configuration);
+console.log('config is::::', configuration);
 export default configuration;
 
