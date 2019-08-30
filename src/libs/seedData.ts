@@ -1,17 +1,34 @@
-import  UserRepository from '../repositories/user/UserRepository';
-// import userRepository from '../repositories/user/UserRepository';
+import * as bcrypt from 'bcrypt';
+import UserRepository from '../repositories/user/UserRepository';
+import { userModel }  from '../repositories/user/UserModel';
+
 const userRepository = new UserRepository();
 
 export default () => {
+    const saltRounds = 10;
+    var salt = bcrypt.genSaltSync(saltRounds);
+    var hash = bcrypt.hashSync('training@123', salt);
     const user = {
-        user: 'user1',
-        email:'successive@123' 
+        name: 'Head Trainer',
+        email: 'head.trainer@successive.tech',
+        password: hash,
+        userId: 'soni111',
+        role: 'head-trainer'
     };
-    userRepository.create(user)
-    .then(res=>{
-        console.log('user in seed folder ::::: ',user);
-    })
-    .catch(err =>{
-        console.log('error in seed data >>> ',err);
-    })
+    
+    userModel.countDocuments({}, function(err, count) { 
+        console.log('Number of Users::::', count);
+
+         if (count === 0 ) {
+                userRepository.create(user)
+              .catch((err) => {
+              console.log('Error Occured', err);
+              
+              });
+            }
+         });
+   
+
+
+
 }

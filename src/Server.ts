@@ -19,16 +19,13 @@ export class Server {
   }
 
   public bootstrap() {
-    console.log('In the bootstrap method');
+
     this.initBodyParser();
     this.setupRoutes();
-
     return this;
   }
 
   private initBodyParser() {
-    // const { app } = this;
-    console.log("::::::::::in body parse:")
     this.app.use(BodyParser.json());
     this.app.use(BodyParser.urlencoded({ extended: false }));
   }
@@ -36,8 +33,6 @@ export class Server {
     throw new Error("Method not implemented !!!!!!.");
   }
   public setupRoutes() {
-    console.log("::::::::::in setup:")
-
     const { app } = this;
     app.use('/api', router);
     app.use('/health-check', (req, res) => {
@@ -52,15 +47,9 @@ export class Server {
     
     const {
       config: { port, mongoUri } } = this;
-     //console.log('mongoURI checkrd >>>>>>',mongoUri);
-   database.open(mongoUri);
+       database.open(mongoUri);
             this.listen();
-
-    //   this.app.listen(9000, () => {
-    //  console.log('Connection Done on PORT!!!!!', port);
-    //  });  
-    
-    
+      
   }
 
 }

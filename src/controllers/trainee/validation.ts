@@ -1,30 +1,18 @@
 const validation = {
     create: {
-        id: {
-            required: true,
-            string: true,
-            in: ['body'],
-            custom: function (value) {
-                // console.log('Value', value); 
-                return value;
-                //  if(value!=''&& value!=Number){        
-                //        throw { 
-                //           error: 'Error Occured', 
-                //           message: 'Message' 
-                //          }
-                //      }
-
-            }
-        },
-        name: {
+            name: {
             required: true,
             regex: '',
             in: ['body'],
             errorMessage: 'Name is required',
+        },
+        email: {
+            required: true,
+            regex: '',
+            in: ['body'],
+            errorMessage: 'email is required',
         }
     },
-
-
     delete: {
         id: {
             required: true,

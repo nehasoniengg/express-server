@@ -1,28 +1,33 @@
+
 import * as jwt from 'jsonwebtoken';
-// import {hasPermission} from './hasPermission';
-// import hasPermission from '../../../utils/permissions';
-export default function(module, permissionType) {
-  // tslint:disable-next-line:only-arrow-functions
-  return  function(req, res, next) {
-   
-    try {
-      const token = req.header('Authorization');
-      const user = jwt.verify(token, process.env.key);
+import {default as  hasPermission } from './hasPermission';
+import configuration  from '../../config/configuration';
+import UserRepository from '../../repositories/user/UserRepository';
+const userRepository = new UserRepository();
 
-           console.log('information >>>>>>>',user);
-           console.log ('value of token ::::::',token);
-   
-      
-      if (!user) {
-        throw new Error('not authorized');
-      } else {
-        // next({ status: 401, message: 'Wrong Permission' });
-        console.log('connection successful');
-
+export default ( moduleName, permissionType ) => (req, res, next) => {
+    console.log('config is ::::', moduleName, permissionType);
+    const token = req.headers.authorization;
+    const userinfo = jwt.verify(token, configuration.key );  
+    console.log('user information::::', userinfo);
+    if (hasPermission( moduleName, 'get', permissionType )) {
+        console.log('checked has parmission::::::');
+        userRepository.get({originalId: userinfo._id , deleatedAt: {$exists: false}}, undefined)
+    .then((user) => {
+        console.log('user inside auth ::::',user);
+        if (!user) {
+            next('user does not exist');
+        }
+        console.log('user from db :::', user);
+        req.user = user;
+        next();
+    })
+    .catch((error) => {
+        res.log('errror is ', error);
+    });
+        }
+        else {
+            next();
+        
+        }
       }
-    }
-    catch (err) {
-      next({ status: 403, message: 'Unauthorized Access' });
-    }
-  };
-}

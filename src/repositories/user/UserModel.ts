@@ -7,7 +7,7 @@ const toConvert = {
         delete ret._id;
         delete ret._v;
     },
-    virtuals: false,
+    virtuals: true,
 };
 export const userSchema = new UserSchema({
     collection: 'User',
@@ -19,5 +19,5 @@ export const userModel: mongoose.Model< IUserModel > = mongoose.model< IUserMode
     'User',
     userSchema,
     'Users',
-    false,
+    true,
 );

@@ -1,16 +1,17 @@
-import { IPermissions } from './interface';
-export const GetUsers: string = "getUsers";
-export const HeadTrainer: string = "head-trainer";
-export const Trainer: string = "trainer";
-export const Trainee: string = "trainee";
-export const module:string="trainee";
-export const permissions: IPermissions = {
-[module]:{
-all: ['head-trainer'],
-read : ['trainee', 'trainer'],
-write : ['trainer'],
-delete: [],
-
-},
-
+import { IPermissions , IUsers } from './interface';
+export const  permissions: IPermissions = {
+    getUsers: {
+        all: ['head-trainer'],
+        delete: [],
+        read : ['trainee', 'trainer'],
+        write : ['trainer'],
+    },
 };
+export const users: IUsers[] = [
+    {
+        reviewerEmail: 'user1@successive.tech', traineeEmail: 'trainee@successive#tech'},
+    {
+        reviewerEmail: 'user2@successive.tech', traineeEmail: 'trainee2@successive.tech12'},
+    {
+        reviewerEmail: 'user1#successive.tech', traineeEmail: 'trainee@successive.tech'},
+] ;
