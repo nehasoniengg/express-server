@@ -36,18 +36,16 @@ export class Server {
     const { app } = this;
     app.use('/api', router);
     app.use('/health-check', (req, res) => {
-      console.log('inside the health-check');
       res.send('I am ok and fine ');
     });
     app.use(notFound);
     app.use(errorHandler);
 
   }
-  public run() {
-    
+  public run() {    
     const {
-      config: { port, mongoUri } } = this;
-       database.open(mongoUri);
+      config: { port, mongoUrl } } = this;
+       database.open(mongoUrl);
             this.listen();
       
   }

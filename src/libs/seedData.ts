@@ -3,7 +3,6 @@ import UserRepository from '../repositories/user/UserRepository';
 import { userModel }  from '../repositories/user/UserModel';
 
 const userRepository = new UserRepository();
-
 export default () => {
     const saltRounds = 10;
     var salt = bcrypt.genSaltSync(saltRounds);
@@ -12,10 +11,9 @@ export default () => {
         name: 'Head Trainer',
         email: 'head.trainer@successive.tech',
         password: hash,
-        userId: 'soni111',
+        userId: 'soni',
         role: 'head-trainer'
-    };
-    
+    };    
     userModel.countDocuments({}, function(err, count) { 
         console.log('Number of Users::::', count);
 

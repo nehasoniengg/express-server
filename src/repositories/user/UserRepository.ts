@@ -25,8 +25,8 @@ export default class userRepository extends VersionableRepository<IuserModel, mo
         return super.get(query, projection={},options={});
     }
 
-    public update({},dataToUpdate) {
-        return this.userModel.update(dataToUpdate);
+    public update(id,dataToUpdate){
+     return super.update(id,dataToUpdate);
     }
    
     public create(data) {

@@ -13,11 +13,12 @@ const validation = {
             errorMessage: 'email is required',
         }
     },
+
     delete: {
         id: {
             required: true,
             errorMessage: 'Id is required',
-            in: ['body']
+            in: ['params']
         }
     },
 
@@ -38,21 +39,34 @@ const validation = {
             errorMessage: 'Limit is invalid',
         }
     },
-
-
-    update: {
-        id: {
+   update:
+    {
+        id:
+        {
             required: true,
-            string: true,
-            in: ['body']
-        },
-
-        dataToUpdate: {
             in: ['body'],
+            string: true,
+        },
+        dataToUpdate:
+        {
+            in: ['body'],
+            isObject: true,      
             required: true,
-            isObject: true,
-            custom: function (dataToUpdate) { },
-        }
-    }
+            custom: (dataToUpdate) => {
+                const { name, email } = dataToUpdate;
+                const nameRegex = new RegExp('^[a-zA-Z].*[\s\.]*$');
+
+                if (name === '' || !(nameRegex.test(name)) ) {
+                    throw { error: 'Error Occured', message: 'name is required' };
+                }
+                if (email === '') {
+                    throw { error: 'Error Occured', message: 'email is requireddd' };
+                }
+           },
+              },
+        
+    },
+
+
 }
 export default validation;

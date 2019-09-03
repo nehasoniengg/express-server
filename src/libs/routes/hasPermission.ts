@@ -1,7 +1,6 @@
 import { permissions  } from '../../../extraTs/utils/permission' ;
-console.log('checked permission !!!!!!!!!!');
 export default function hasPermission(moduleName, role, permissionType) {
-    if (moduleName in permissions) {
+      if (moduleName in permissions) {
       if (permissionType in permissions[moduleName]) {
         if (permissions[moduleName][permissionType].includes(role)) {
           return true;

@@ -1,8 +1,7 @@
 
-export default interface IConfig {
-   
+export default interface IConfig {   
   port: string;
   key: string;
-  mongoUri: string;
+  mongoUrl: string;
   password: string;
 }

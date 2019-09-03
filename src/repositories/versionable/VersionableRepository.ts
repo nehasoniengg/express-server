@@ -21,38 +21,31 @@ public async create(options): Promise<D> {   // Promise D(document) create schem
     });
     return model.save().then((record) => record.toObject());
     }
-public async update(id, options) {
+    public async update(id, options) {
         let originalData;
-        const userRepository = new UserRepository();
-        const updateuser = await userRepository.findOne({ originalId: id, deletedAt: {$exists: false} })
-        .then((data) => {
-        if (!data) {
-           return 'user not found';
-        }
-        originalData = data;
-        })
-            .then(() => {
+        const updateuser = await this.modelType.findOne({ originalId: id, deletedAt: { $exists: false } }).lean();
+        if (!updateuser) {
+            throw new Error('user not foundddd :::');
+        } else {
+            originalData = updateuser;
             const id = VersionableRepository.generateObjectId();
             const modelCreate = new this.modelType({
-            ...originalData,
-            ...options,
-            _id: id,
-        });
-            return this.modelType.create(modelCreate).then((record) => record.toObject());
-        })
-            .then(() => {
-            const modelUpdate = new this.modelType({
-               ...originalData,
-               deletedAt: Date.now(),
+                ...originalData,
+                ...options,
+                _id: id,
             });
-            console.log(modelUpdate);
-            return this.modelType.updateOne(id, modelUpdate);
-           })
-           .catch((err) => {
-            return err;
-        });
-        return updateuser;
-   }
+            const record = await this.modelType.create(modelCreate);
+            await record.toObject();
+            const newestId = originalData._id;
+            const modelUpdate = new this.modelType({
+                ...originalData,
+                deletedAt: Date.now(),
+            });
+            console.log('model update::::',modelUpdate)
+            return this.modelType.updateOne({ _id: newestId }, modelUpdate);
+        }
+
+    }
 public async delete(id) {
     let originalData;
     const findDelete = await this.modelType.findOne({ originalId: id, deletedAt: { $exists: false } }).lean();
@@ -70,13 +63,10 @@ public async delete(id) {
     }
 }
 public async get(query, projection,options) {
-    console.log(':::::::::versionalble repo get');
     const user = await this.modelType.findOne(query).lean();
-    console.log('::::::::::user');
     return user;
 }
 public getAll( query, projection = {}, options = {}) {
      return this.modelType.find(query, projection, options).populate('password').lean();
-    //return this.modelType.find(query, projection, options).lean();
 }
 }
