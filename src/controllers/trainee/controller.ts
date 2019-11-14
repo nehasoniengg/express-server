@@ -1,12 +1,11 @@
 import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
-
 import UserRepository from '../../repositories/user/UserRepository'
 const userRepository = new UserRepository();
+
 class TraineeController {
     public async get(req: Request, res: Response) {
-        console.log('req query inside trainee controller::', );
         const { skip = 0, limit = 0 } = req.query;
         const query = {
             limit: parseInt(limit, 10),
@@ -14,7 +13,6 @@ class TraineeController {
         };
         const traineeList = await userRepository.getAll({ deletedAt: { $exists: false } ,role: 'trainee'}, undefined, query);
         const count: number = traineeList.length;
-        console.log('inside get trainee::::');
         res.send([
         {
             count,
@@ -25,7 +23,6 @@ class TraineeController {
        ]);
     }
     public async create(req: Request, res: Response) {
-        console.log('inside create trainee:::');
         const saltRounds = 10;
         const salt = bcrypt.genSaltSync(saltRounds);
         const hash = bcrypt.hashSync(req.body.password, salt);
@@ -48,7 +45,6 @@ class TraineeController {
      try{ console.log('inside delete trainee::: ');
      const { id } = req.params.id ;
      const deleteTrainee =await userRepository.delete({_id:req.params.id});
-     console.log('delete user inside trainee controller ',deleteTrainee);
      if(deleteTrainee){
         res.send({
                 data: { 
@@ -58,10 +54,12 @@ class TraineeController {
                 status: 200,
                 });
 
-     }         
+     }   
+    
+         
      } catch (err){
          next({
-            message: 'user not found !!',       
+            message: 'user not found !!!!!',       
             status: 404,
 
          });
@@ -69,11 +67,10 @@ class TraineeController {
  }
 
 public async update(req: Request, res: Response, next) {
+    console.log('inside controller update');
     try {
-        console.log('inside update trainee:::::');
         const { id, dataToUpdate } = req.body;
         const updateTrainee = await userRepository.update(id, dataToUpdate);        
-        console.log('>>>>>>>',updateTrainee );
         if (updateTrainee) {
             res.send({
                 data: req.body,

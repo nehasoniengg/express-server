@@ -15,8 +15,6 @@ export default () => {
         role: 'head-trainer'
     };    
     userModel.countDocuments({}, function(err, count) { 
-        console.log('Number of Users::::', count);
-
          if (count === 0 ) {
                 userRepository.create(user)
               .catch((err) => {

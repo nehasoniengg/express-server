@@ -41,7 +41,7 @@ public async create(options): Promise<D> {   // Promise D(document) create schem
                 ...originalData,
                 deletedAt: Date.now(),
             });
-            console.log('model update::::',modelUpdate)
+            // console.log('model update::::',modelUpdate)
             return this.modelType.updateOne({ _id: newestId }, modelUpdate);
         }
 

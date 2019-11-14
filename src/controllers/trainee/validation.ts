@@ -1,4 +1,6 @@
+console.log('inside create validation');
 const validation = {
+    
     create: {
             name: {
             required: true,
@@ -55,7 +57,7 @@ const validation = {
             custom: (dataToUpdate) => {
                 const { name, email } = dataToUpdate;
                 const nameRegex = new RegExp('^[a-zA-Z].*[\s\.]*$');
-
+                console.log('update::::::::::::::');
                 if (name === '' || !(nameRegex.test(name)) ) {
                     throw { error: 'Error Occured', message: 'name is required' };
                 }

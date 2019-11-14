@@ -6,6 +6,7 @@ import UserRepository from '../../repositories/user/UserRepository';
 const userRepository = new UserRepository();
 
 export default ( moduleName, permissionType ) => (req, res, next) => {
+    console.log('inside auth');
     const token = req.headers.authorization;
     const userinfo = jwt.verify(token, configuration.key ); 
     if (hasPermission( moduleName, 'head-trainer', permissionType )||
@@ -19,7 +20,11 @@ export default ( moduleName, permissionType ) => (req, res, next) => {
         next();
     })
     .catch((error) => {
-        res.log('errror is ', error);
+        console.log('error in token',error);
+        next({
+            message: "token expired",
+            status: "500"
+        })
     });
         }
         else {

@@ -1,0 +1,379 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "just try",
+    "version": "1.0.0",
+    "title": "User and Trainee APIs"
+  },
+  "host": "localhost:9000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "demo API",
+      "description": "check",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://localhost:9000/health-check"
+      }
+    },
+    {
+      "name": "user",
+      "description": "Operations about user"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/trainee": {
+      "post": {
+        "tags": [
+          "trainee"
+        ],
+        "summary": "Add a new trainee ",
+        "description": "",
+        "operationId": "addTrainee",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "name",
+            "email": "email",
+            "password": "password",
+            "description": "trainee object that needs to be added ",
+            "type": "string",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/addTrainee"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },      
+     "put": {
+        "tags": [
+         "trainee"
+         ],
+        "summary": "Update an existing trainee",
+        "description": "valid trainee updated",
+        "operationId": "updateTrainee",
+        "consumes": [
+          "application/json"
+         ],
+        "produces": [
+          "application/json"
+         ],
+        "parameters":  [
+          { "in": "body",
+            "name": "id",
+            "required": true,
+            "schema": {
+               "$ref": "#/definitions/updateTrainee"
+             },
+             "description": "update trainee"
+          }
+       ],
+        "security": {
+          "bearerAuth":[]
+          },  
+        "responses": {
+          "200":{
+            "description": "everything is fine"
+          },
+          "400": {
+           "description": "Invalid ID supplied"
+          },
+          "404": {
+           "description": "user not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+     "get": {
+       "tags": [
+         "trainee"
+        ],
+       "summary": "Finds trainee",
+       "description": "Finds trainees",
+       "operationId": "findTrainee",
+       "produces": [
+        "application/json"
+       ],
+       "security": [{
+        "bearerAuth":[]
+        }],        
+       "responses": {
+         "200": {
+       "description": "successful operation" ,
+       "schema":{
+        "$ref":"#/definitions/traineeGetResponse"
+        }           
+      },
+        "400": {
+       "description": "Invalid status value"
+        }
+      }        
+    }
+  },
+   "/trainee/{id}": {
+     "delete": {
+      "tags": [
+         "trainee"
+       ],
+      "summary": "Delete a trainee",
+      "description": "",
+      "operationId": "deleteTrainee",
+      "produces": [
+        "application/xml",
+        "application/json"
+      ],
+      "parameters": [
+       {
+          "name": "id",
+          "in": "path",
+          "description": "trainee id to delete",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "security": [{
+         "bearerAuth":[]
+        }],
+      "responses": {
+         "400": {
+           "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": " use rnot found"
+          }
+       }       
+      }
+    }, 
+    "/user/login": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Login user into the system",
+        "description": "",
+        "operationId": "userLogin",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters":  [
+          { "name": "user",
+             "in": "body",
+             "description": "Login user",
+             "required": true,
+             "schema": {
+                "$ref": "#/definitions/User"
+                  }
+              }
+          ],           
+          
+          "responses": {
+            "200": {
+              "description": "successful operation"
+                },
+            "400": {
+              "description": "Invalid username supplied"
+            },
+            "404": {
+              "description": "User not found"
+            }
+          } 
+       
+      }
+    },
+    "/user/me": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get user infomation",
+        "description": "user info",
+        "operationId": "getUser",
+        "produces": [
+          "application/json"
+        ], 
+        "security": [{
+         "bearerAuth":[]
+         }], 
+         "responses": {
+          "200": {
+        "description": "successful operation" ,
+        "schema":{
+         "$ref":"#/definitions/UserInfo"
+         }           
+       },
+         "400": {
+        "description": "Invalid status value"
+         }
+       }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "bearerAuth": {  
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "scheme": "bearer",
+      "bearerFormat": "JWT"    
+  }
+  },
+
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "head.trainer@successive.tech"
+        },
+        "password": {
+          "type": "string",
+          "example": "training@123"
+        }        
+      }     
+    },
+    "trainee": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "format": ""
+        },
+        "email": {
+          "type": "string",
+          "format": ""
+        },
+        "password": {
+          "type": "string",
+          "format": ""
+        }
+      }
+    },
+    "traineeGetResponse":{
+      "type":"object",
+      "properties":{
+        "name":{
+          "type":"string"
+        },
+        "password":{
+          "type":"string"
+        },
+        "email":{
+          "type":"string"
+        }
+      }
+    },
+    "UserInfo":{
+      "type":"object",
+      "properties":{
+        "id":{
+          "type":"string"
+        },
+        "createdBy":{
+          "type":"string"
+        },
+        "updatedBy":{
+          "type":"string"
+        },
+        "name":{
+          "type":"string"
+        },
+        "password":{
+          "type":"string"
+        },
+        "email":{
+          "type":"string"
+        },
+        "role":{
+          "type":"string"
+        },
+        "originalId":{
+          "type":"string"
+        },
+        "createdAt":{
+          "type":"string"
+        },
+        "updatedAt":{
+          "type":"string"
+        }
+      }
+    },
+    "addTrainee": {
+      "type": "object",
+      "properties": {
+         "name":{
+           "type": "string",
+           "example":"username"
+          },
+          "email":{
+           "type": "string",
+           "example":"username@successive.tech"
+          },
+          "password":{
+            "type": "string",
+            "example":"username@123"
+           }
+      } 
+    },       
+
+    "updateTrainee": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example":"5d75e3ea505e181c417313e1"
+        },
+      "dataToUpdate":{
+       "$ref":"#/definitions/dataToUpdate"
+      } 
+    }
+  },  
+     "dataToUpdate": {
+       "type": "object",
+         "properties": {
+           "name":{
+           "type": "string",
+           "example":"username"
+           },
+           "email":{
+           "type": "string",
+           "example":"username@successive.tech"
+           }
+         } 
+       },          
+  
+    "deleteTrainee": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "5d75e3ea505e181c417313e1"
+        }       
+      }
+    }
+  }
+}

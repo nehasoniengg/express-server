@@ -6,16 +6,19 @@ import UserRepository from '../../repositories/user/UserRepository';
 
 const userRepository = new UserRepository();
 export default class UserController {
-    public static login(req, res, next) {          
+    public static login(req, res, next) {  
+        console.log('inside login:::::::::');        
          const { email, password } = req.body; 
          userRepository.findOne({ email })
          .then((user) => {
              if (!user) {
-             return next('User not Found'); 
+             return next({message:"User Not found"}); 
          }
              const { password: hashpassword } = user;
              if (!(bcrypt.compareSync( password, hashpassword))) {
-             return next('Password does not match');
+             return next({
+                 message:'Password does not match'}
+                 );
          }
              const token = jwt.sign(user, configuration.key);
              res.send({
